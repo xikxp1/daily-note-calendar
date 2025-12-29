@@ -1,7 +1,30 @@
+.workspace-leaf-content[data-type='daily-note-calendar'] .view-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 0;
+}
+
+.dnc {
+    box-sizing: border-box;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.dnc:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
 .dnc table {
     table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+.dnc ul:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .dnc th {
@@ -104,11 +127,19 @@
     padding-bottom: 0.4em;
 }
 
+.dnc ul li:last-child {
+    padding-bottom: 0;
+}
+
 .dnc ul li:after {
     content: "";
     display: block;
     border-bottom: 1px solid var(--background-modifier-border);
     padding-top: 0.4em;
+}
+
+.dnc ul li:last-child:after {
+    display: none;
 }
 
 .dnc ul li .note-title {
