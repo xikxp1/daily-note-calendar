@@ -43,12 +43,20 @@
 }
 
 .dnc th, .dnc td {
-    vertical-align: text-top;
+    vertical-align: middle;
     text-align: center;
     width: 0.45em;
-    height: 0.45em;
+    height: 30px;
     padding: 0.2em;
     border: 1px solid var(--background-modifier-border-hover);
+}
+
+.dnc td > div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 .dnc td:hover:not(:empty), .dnc th:hover:not(:empty) {
@@ -73,12 +81,17 @@
     opacity: 45%;
 }
 
+.dnc .has-note {
+    position: relative;
+}
+
 .dnc .has-note:after {
     content: "";
-    display: block;
-    width: 30%;
-    opacity: 75%;
-    margin: 0 auto;
+    position: absolute;
+    bottom: 0.05em;
+    left: 25%;
+    width: 50%;
+    opacity: 85%;
     border-bottom: 0.2em solid var(--text-faint);
 }
 
