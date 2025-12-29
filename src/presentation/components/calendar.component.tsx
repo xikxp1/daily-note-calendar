@@ -36,12 +36,23 @@ export const CalendarComponent = (props: CalendarComponentProperties): ReactElem
 
     const loadNextWeek = () => setCalendar(viewModel?.getNextWeek(calendar) ?? null);
     const loadPreviousWeek = () => setCalendar(viewModel?.getPreviousWeek(calendar) ?? null);
-    const loadCurrentWeek = () => setCalendar(viewModel?.getCurrentWeek() ?? null);
+    const loadCurrentWeek = () => {
+        const currentCalendar = viewModel?.getCurrentWeek() ?? null;
+        if (!currentCalendar?.today) {
+            return;
+        }
+        setSelectedPeriod(currentCalendar.today);
+        setCalendar(viewModel?.getWeekForPeriod(currentCalendar.today) ?? null);
+    };
     const loadNextMonth = () => setCalendar(viewModel?.getNextMonth(calendar) ?? null);
     const loadPreviousMonth = () => setCalendar(viewModel?.getPreviousMonth(calendar) ?? null);
+    const handleDaySelected = (period: Period) => {
+        setSelectedPeriod(period);
+        setCalendar(viewModel?.getWeekForPeriod(period) ?? null);
+    };
 
     viewModel?.initializeCallbacks(
-        setSelectedPeriod,
+        handleDaySelected,
         loadNextWeek,
         loadPreviousWeek,
         loadCurrentWeek,
@@ -105,11 +116,12 @@ export const CalendarComponent = (props: CalendarComponentProperties): ReactElem
                         selectedPeriod={selectedPeriod}
                         today={calendar.today}
                         currentMonth={calendar.month}
-                        onSelect={setSelectedPeriod} />
+                        onSelect={handleDaySelected} />
                 )}
                 </tbody>
             </table>
 
+            
             <NotesComponent period={selectedPeriod}/>
         </div>
     );
