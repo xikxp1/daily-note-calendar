@@ -19,8 +19,10 @@ export const NotesComponent = (props: NotesComponentProperties) => {
   };
 
   React.useEffect(() => {
-    loadNotes();
-  }, [viewModel, setNotes, props.period]);
+    if (props.period) {
+      viewModel?.loadNotes(props.period).then(setNotes);
+    }
+  }, [viewModel, props.period]);
 
   viewModel?.initializeCallbacks(loadNotes);
 
@@ -46,6 +48,6 @@ export const NotesComponent = (props: NotesComponentProperties) => {
       </div>
     );
   } else {
-    return (<></>);
+    return <></>;
   }
 };
