@@ -6,6 +6,10 @@ import {Week} from 'src/domain/models/week';
 import {Period} from 'src/domain/models/period.model';
 
 export class DefaultCalendarService implements CalendarService {
+    private static readonly PREVIOUS_WEEKS_COUNT = 2;
+    private static readonly NEXT_WEEKS_COUNT = 3;
+    private static readonly REFERENCE_WEEK_INDEX = 2;
+
     private readonly dateManager: DateManager;
     private settings: PluginSettings = DEFAULT_PLUGIN_SETTINGS;
     private selectedPeriod: Period | null = null;
@@ -25,7 +29,7 @@ export class DefaultCalendarService implements CalendarService {
         const weekNumberStandard = this.settings.generalSettings.weekNumberStandard;
         const currentWeek = this.dateManager.getCurrentWeek(firstDayOfWeek, weekNumberStandard);
 
-        return this.loadWeeks(currentWeek, 2, 3);
+        return this.loadWeeks(currentWeek, DefaultCalendarService.PREVIOUS_WEEKS_COUNT, DefaultCalendarService.NEXT_WEEKS_COUNT);
     }
 
     public getWeekForPeriod(period: Period): Week[] {
@@ -37,19 +41,19 @@ export class DefaultCalendarService implements CalendarService {
         const week = this.dateManager.getWeek(periodToUse, firstDayOfWeek, weekNumberStandard);
 
         this.selectedPeriod = periodToUse;
-        return this.loadWeeks(week, 2, 3);
+        return this.loadWeeks(week, DefaultCalendarService.PREVIOUS_WEEKS_COUNT, DefaultCalendarService.NEXT_WEEKS_COUNT);
     }
 
     public getPreviousWeek(weeks: Week[]): Week[] {
         this.selectedPeriod = null;
         const newReferenceWeek = weeks[1]; // Week before current reference (index 2)
-        return this.loadWeeks(newReferenceWeek, 2, 3);
+        return this.loadWeeks(newReferenceWeek, DefaultCalendarService.PREVIOUS_WEEKS_COUNT, DefaultCalendarService.NEXT_WEEKS_COUNT);
     }
 
     public getNextWeek(weeks: Week[]): Week[] {
         this.selectedPeriod = null;
         const newReferenceWeek = weeks[3]; // Week after current reference (index 2)
-        return this.loadWeeks(newReferenceWeek, 2, 3);
+        return this.loadWeeks(newReferenceWeek, DefaultCalendarService.PREVIOUS_WEEKS_COUNT, DefaultCalendarService.NEXT_WEEKS_COUNT);
     }
 
     public getPreviousMonth(weeks: Week[]): Week[] {
@@ -73,7 +77,7 @@ export class DefaultCalendarService implements CalendarService {
     }
 
     private getReferenceWeek(weeks: Week[]): Week {
-        return weeks[2]; // Reference week is always at index 2 (2 before, reference, 3 after)
+        return weeks[DefaultCalendarService.REFERENCE_WEEK_INDEX]; // Reference week is always at index 2 (2 before, reference, 3 after)
     }
 
     public getMonthForWeeks(weeks: Week[], selectedPeriod?: Period): Period {
