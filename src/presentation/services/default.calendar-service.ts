@@ -31,9 +31,12 @@ export class DefaultCalendarService implements CalendarService {
     public getWeekForPeriod(period: Period): Week[] {
         const firstDayOfWeek = this.settings.generalSettings.firstDayOfWeek;
         const weekNumberStandard = this.settings.generalSettings.weekNumberStandard;
-        const week = this.dateManager.getWeek(period, firstDayOfWeek, weekNumberStandard);
 
-        this.selectedPeriod = period;
+        // Use middle day of week for navigation if period is a Week
+        const periodToUse = this.isWeek(period) ? this.getMiddleDay(period as Week) : period;
+        const week = this.dateManager.getWeek(periodToUse, firstDayOfWeek, weekNumberStandard);
+
+        this.selectedPeriod = periodToUse;
         return this.loadWeeks(week, 2, 3);
     }
 
@@ -106,6 +109,10 @@ export class DefaultCalendarService implements CalendarService {
         const referenceWeek = this.getReferenceWeek(weeks);
         const referenceDay = this.getMiddleDay(referenceWeek);
         return this.dateManager.getYear(referenceDay);
+    }
+
+    private isWeek(period: Period): period is Week {
+        return 'days' in period && Array.isArray((period as Week).days);
     }
 
     private getMiddleDay(week: Week): Period {
