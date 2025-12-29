@@ -26,9 +26,10 @@ export const CalendarComponent = (props: CalendarComponentProperties): ReactElem
 
         if (!initializedRef.current && currentCalendar?.today) {
             setSelectedPeriod(currentCalendar.today);
+            setCalendar(viewModel?.getWeekForPeriod(currentCalendar.today) ?? null);
             initializedRef.current = true;
         }
-    }, [viewModel, setCalendar]);
+    }, [viewModel, setCalendar, setSelectedPeriod]);
 
     if (!calendar) {
         return (<></>);
