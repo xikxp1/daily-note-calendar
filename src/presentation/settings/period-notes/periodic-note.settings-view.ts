@@ -25,7 +25,7 @@ export abstract class PeriodicNoteSettingsView extends SettingsView {
             settings.folder = value;
             await this.settingsRepository.store(settings);
         });
-        this.addTextSetting(this.getTemplateFileSetting(settings.templateFile), async value => {
+        this.addTextSettingWithFileSuggest(this.getTemplateFileSetting(settings.templateFile), async value => {
             settings.templateFile = value;
             await this.settingsRepository.store(settings);
         });

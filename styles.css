@@ -1,6 +1,7 @@
 .dnc table {
     table-layout: fixed;
     width: 100%;
+    border-collapse: collapse;
 }
 
 .dnc th {
@@ -23,6 +24,7 @@
     width: 0.45em;
     height: 0.45em;
     padding: 0.2em;
+    border: 1px solid var(--background-modifier-border-hover);
 }
 
 .dnc td:hover:not(:empty), .dnc th:hover:not(:empty) {
@@ -37,7 +39,9 @@
 }
 
 .dnc #today {
-    color: var(--text-accent);
+    border: 2px solid var(--interactive-accent);
+    border-radius: var(--radius-s);
+    font-weight: var(--font-semibold);
 }
 
 .dnc .other-month {
@@ -53,13 +57,10 @@
     border-bottom: 0.1em solid var(--text-faint);
 }
 
-.dnc .selected-day:after {
-    content: "";
-    display: block;
-    opacity: 100%;
-    width: 30%;
-    margin: 0 auto;
-    border-bottom: 0.15em solid var(--text-accent);
+.dnc .selected-day {
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border-radius: var(--radius-s);
 }
 
 .dnc .header {

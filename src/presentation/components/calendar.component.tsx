@@ -18,9 +18,16 @@ export const CalendarComponent = (props: CalendarComponentProperties): ReactElem
     const viewModel = useCalendarViewModel();
     const [calendar, setCalendar] = React.useState<Calendar | null>(props.initialCalendar ?? null);
     const [selectedPeriod, setSelectedPeriod] = React.useState<Period | null>(null);
+    const initializedRef = React.useRef(false);
 
     React.useEffect(() => {
-        setCalendar(viewModel?.getCurrentWeek() ?? null);
+        const currentCalendar = viewModel?.getCurrentWeek() ?? null;
+        setCalendar(currentCalendar);
+
+        if (!initializedRef.current && currentCalendar?.today) {
+            setSelectedPeriod(currentCalendar.today);
+            initializedRef.current = true;
+        }
     }, [viewModel, setCalendar]);
 
     if (!calendar) {
